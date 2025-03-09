@@ -5,6 +5,8 @@ VisualStudioVersion = 17.12.35527.113 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NORM.Guard", "NORM.Guard\NORM.Guard.csproj", "{F7389466-B1CE-4533-A3E1-398F49F7E3CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NORM.Guard.Test", "NORM.Guard.Test\NORM.Guard.Test.csproj", "{46B324A2-A1A2-4922-9C39-1B59508548D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F7389466-B1CE-4533-A3E1-398F49F7E3CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7389466-B1CE-4533-A3E1-398F49F7E3CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7389466-B1CE-4533-A3E1-398F49F7E3CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46B324A2-A1A2-4922-9C39-1B59508548D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46B324A2-A1A2-4922-9C39-1B59508548D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46B324A2-A1A2-4922-9C39-1B59508548D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46B324A2-A1A2-4922-9C39-1B59508548D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
