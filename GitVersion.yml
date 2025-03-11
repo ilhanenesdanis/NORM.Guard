@@ -1,7 +1,9 @@
-mode: ContinuousDeployment
+mode: Mainline
+next-version: 1.0.0
 branches:
   nuget:
     regex: ^nuget$
+    mode: ContinuousDeployment
     tag: ''
     increment: Patch
     prevent-increment-of-merged-branch-version: false
@@ -10,4 +12,7 @@ branches:
     is-release-branch: true
 ignore:
   sha: []
-merge-message-formats: {} 
+merge-message-formats: {}
+major-version-bump-message: "^(breaking|major):"
+minor-version-bump-message: "^(feature|minor):"
+patch-version-bump-message: "^(fix|patch):" 

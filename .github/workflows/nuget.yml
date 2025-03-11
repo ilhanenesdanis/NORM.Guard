@@ -24,10 +24,13 @@ jobs:
         uses: gittools/actions/gitversion/setup@v0.10.2
         with:
           preferLatestVersion: true
+          gitVersionVersion: '5.12.0'  # Specify a stable version
 
       - name: Determine Version
         id: gitversion
         uses: gittools/actions/gitversion/execute@v0.10.2
+        with:
+          useConfigFile: true
 
       - name: Display GitVersion outputs
         run: |
