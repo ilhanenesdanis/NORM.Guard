@@ -1,9 +1,9 @@
 name: "Deploy to NuGet"
 
-on: 
+on:
   push:
     branches:
-      - nuget
+      - nuget  
 
 env:
   PROJECT_PATH: '${{ github.workspace }}/NORM.Guard/NORM.Guard.csproj'
@@ -14,7 +14,7 @@ jobs:
   deploy:
     name: 'Deploy to NuGet'
     runs-on: 'windows-latest'
-    
+
     steps:
     - name: 'Checkout code'
       uses: 'actions/checkout@v2'
@@ -23,6 +23,9 @@ jobs:
       uses: 'actions/setup-dotnet@v1'
       with:
         dotnet-version: '9.0.x'
+    
+    - name: 'Clear NuGet caches'
+      run: dotnet nuget locals all --clear  
     
     - name: 'Restore dependencies'
       run: dotnet restore ${{ env.PROJECT_PATH }}
@@ -35,4 +38,3 @@ jobs:
     
     - name: 'Push package to NuGet'
       run: dotnet nuget push ${{ env.PACKAGE_OUTPUT_DIRECTORY }}\*.nupkg --api-key ${{ secrets.NUGET_AUTH_TOKEN }} -s ${{ env.NUGET_SOURCE_URL }}
-    
