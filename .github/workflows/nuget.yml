@@ -1,40 +1,49 @@
-name: "Deploy to NuGet"
+name: Publish NuGet Package
 
 on:
   push:
     branches:
-      - nuget  
-
-env:
-  PROJECT_PATH: '${{ github.workspace }}/NORM.Guard/NORM.Guard.csproj'
-  PACKAGE_OUTPUT_DIRECTORY: '${{ github.workspace }}/output'
-  NUGET_SOURCE_URL: 'https://api.nuget.org/v3/index.json'
+      - nuget
 
 jobs:
-  deploy:
-    name: 'Deploy to NuGet'
-    runs-on: 'windows-latest'
+  build:
+    runs-on: ubuntu-latest
 
     steps:
-    - name: 'Checkout code'
-      uses: 'actions/checkout@v2'
-    
-    - name: 'Set up .NET'
-      uses: 'actions/setup-dotnet@v1'
-      with:
-        dotnet-version: '9.0.x'
-    
-    - name: 'Clear NuGet caches'
-      run: dotnet nuget locals all --clear  
-    
-    - name: 'Restore dependencies'
-      run: dotnet restore ${{ env.PROJECT_PATH }}
-    
-    - name: 'Build project'
-      run: dotnet build ${{ env.PROJECT_PATH }} --no-restore --configuration Release
-    
-    - name: 'Pack project'
-      run: dotnet pack ${{ env.PROJECT_PATH }} --no-restore --no-build --configuration Release --include-symbols --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
-    
-    - name: 'Push package to NuGet'
-      run: dotnet nuget push ${{ env.PACKAGE_OUTPUT_DIRECTORY }}\*.nupkg --api-key ${{ secrets.NUGET_AUTH_TOKEN }} -s ${{ env.NUGET_SOURCE_URL }}
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0.x' 
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build project
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Read package details
+        id: package_info
+        run: |
+          PACKAGE_ID=$(cat *.csproj | grep -oP '(?<=<PackageId>).*?(?=</PackageId>)')
+          PACKAGE_VERSION=$(cat *.csproj | grep -oP '(?<=<Version>).*?(?=</Version>)')
+          echo "PACKAGE_ID=$PACKAGE_ID" >> $GITHUB_ENV
+          echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
+          echo "📦 Package: $PACKAGE_ID - Version: $PACKAGE_VERSION"
+
+      - name: Check if package version exists on NuGet
+        id: check_nuget
+        run: |
+          EXISTS=$(curl -s "https://api.nuget.org/v3-flatcontainer/${{ env.PACKAGE_ID }}/index.json" | grep -c "\"${{ env.PACKAGE_VERSION }}\"")
+          if [ "$EXISTS" -gt 0 ]; then
+            echo "⚠️ NuGet version ${{ env.PACKAGE_VERSION }} already exists. Skipping publish."
+            exit 0
+          fi
+
+      - name: Pack NuGet package
+        run: dotnet pack --configuration Release --no-build --output nupkg
+
+      - name: Publish to NuGet
+        run: dotnet nuget push nupkg/*.nupkg --api-key ${{ secrets.NUGET_AUTH_TOKEN }} --source https://api.nuget.org/v3/index.json --skip-duplicate
