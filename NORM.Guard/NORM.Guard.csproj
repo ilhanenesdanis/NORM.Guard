@@ -19,6 +19,7 @@ With customizable exception handling, this library ensures your application rema
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>guadIcon.png</PackageIcon>
     <PackageLicenseFile>LICENCE.txt</PackageLicenseFile>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
