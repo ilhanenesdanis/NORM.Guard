@@ -3,8 +3,8 @@ name: "Deploy to NuGet"
 on: ["push"]
 
 env:
-  PROJECT_PATH: 'NORM.Guard/NORM.Guard.csproj'
-  PACKAGE_OUTPUT_DIRECTORY: ${{ github.workspace }}\output
+  PROJECT_PATH: ${{ github.workspace }}/NORM.Guard/NORM.Guard.csproj
+  PACKAGE_OUTPUT_DIRECTORY: ${{ github.workspace }}/output
   NUGET_SOURCE_URL: 'https://api.nuget.org/v3/index.json'
 
 jobs:
