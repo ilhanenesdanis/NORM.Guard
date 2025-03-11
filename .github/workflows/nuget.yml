@@ -12,11 +12,35 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '9.0.x' 
+          dotnet-version: '9.0.x'
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.10.2
+        with:
+          preferLatestVersion: true
+
+      - name: Determine Version
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0.10.2
+
+      - name: Display GitVersion outputs
+        run: |
+          echo "Major: ${{ steps.gitversion.outputs.major }}"
+          echo "Minor: ${{ steps.gitversion.outputs.minor }}"
+          echo "Patch: ${{ steps.gitversion.outputs.patch }}"
+          echo "SemVer: ${{ steps.gitversion.outputs.semVer }}"
+
+      - name: Update Version in Project File
+        run: |
+          VERSION="${{ steps.gitversion.outputs.semVer }}"
+          find . -name "*.csproj" -type f -exec sed -i "s|<Version>.*</Version>|<Version>$VERSION</Version>|g" {} \;
+          echo "Updated version to $VERSION"
 
       - name: Restore dependencies
         run: dotnet restore
@@ -27,8 +51,16 @@ jobs:
       - name: Read package details
         id: package_info
         run: |
-          PACKAGE_ID=$(cat *.csproj | grep -oP '(?<=<PackageId>).*?(?=</PackageId>)')
-          PACKAGE_VERSION=$(cat *.csproj | grep -oP '(?<=<Version>).*?(?=</Version>)')
+          PROJECT_FILE=$(find . -name "*.csproj" | head -n 1) 
+          if [ -z "$PROJECT_FILE" ]; then
+            echo "🚨 No .csproj file found!"
+            exit 1
+          fi
+          echo "Using project file: $PROJECT_FILE"
+
+          PACKAGE_ID=$(grep -oP '(?<=<PackageId>).*?(?=</PackageId>)' "$PROJECT_FILE" || grep -oP '(?<=<AssemblyName>).*?(?=</AssemblyName>)' "$PROJECT_FILE")
+          PACKAGE_VERSION=$(grep -oP '(?<=<Version>).*?(?=</Version>)' "$PROJECT_FILE")
+
           echo "PACKAGE_ID=$PACKAGE_ID" >> $GITHUB_ENV
           echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
           echo "📦 Package: $PACKAGE_ID - Version: $PACKAGE_VERSION"
@@ -36,7 +68,7 @@ jobs:
       - name: Check if package version exists on NuGet
         id: check_nuget
         run: |
-          EXISTS=$(curl -s "https://api.nuget.org/v3-flatcontainer/${{ env.PACKAGE_ID }}/index.json" | grep -c "\"${{ env.PACKAGE_VERSION }}\"")
+          EXISTS=$(curl -s "https://api.nuget.org/v3-flatcontainer/${{ env.PACKAGE_ID }}/index.json" | grep -c "\"${{ env.PACKAGE_VERSION }}\"" || true)
           if [ "$EXISTS" -gt 0 ]; then
             echo "⚠️ NuGet version ${{ env.PACKAGE_VERSION }} already exists. Skipping publish."
             exit 0
