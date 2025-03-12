@@ -36,5 +36,4 @@ With customizable exception handling, this library ensures your application rema
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
-
 </Project>
