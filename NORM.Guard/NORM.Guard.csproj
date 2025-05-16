@@ -13,8 +13,6 @@ With customizable exception handling, this library ensures your application rema
     <RepositoryUrl>https://github.com/ilhanenesdanis/NORM.Guard</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>C#;Guard Clauses;Validation;Argument Validation;Error Handling;Null Check;String Validation;C# Library;Exception Handling;Parameter Validation</PackageTags>
-    
-    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <Version>1.0.1</Version>
   </PropertyGroup>
 </Project>
