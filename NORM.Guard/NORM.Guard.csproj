@@ -17,7 +17,6 @@ With customizable exception handling, this library ensures your application rema
     <PackageIcon>NormGuard.png</PackageIcon>
     <PackageLicenseFile>LICENCE.txt</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression> 
   </PropertyGroup>
   <ItemGroup>
   <None Include="Assets\NormGuard.png" Pack="true" PackagePath="" />
