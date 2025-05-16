@@ -14,5 +14,13 @@ With customizable exception handling, this library ensures your application rema
     <RepositoryType>git</RepositoryType>
     <PackageTags>C#;Guard Clauses;Validation;Argument Validation;Error Handling;Null Check;String Validation;C# Library;Exception Handling;Parameter Validation</PackageTags>
     <Version>1.0.1</Version>
+    <PackageIcon>NormGuard.png</PackageIcon>
+    <PackageLicenseFile>LICENCE.txt</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression> 
   </PropertyGroup>
+  <ItemGroup>
+  <None Include="Assets\NormGuard.png" Pack="true" PackagePath="" />
+  <None Include="Assets\license\LICENSE.txt" Pack="true" PackagePath="" />
+</ItemGroup>
 </Project>
