@@ -20,6 +20,6 @@ With customizable exception handling, this library ensures your application rema
   </PropertyGroup>
   <ItemGroup>
   <None Include="Assets\NormGuard.png" Pack="true" PackagePath="" />
-  <None Include="Assets\license\LICENCE.txt" Pack="true" PackagePath="" />
+  <None Include="Assets\licence\LICENCE.txt" Pack="true" PackagePath="" />
 </ItemGroup>
 </Project>
