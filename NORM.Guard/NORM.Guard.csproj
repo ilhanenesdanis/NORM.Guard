@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -16,24 +15,6 @@ With customizable exception handling, this library ensures your application rema
     <PackageTags>C#;Guard Clauses;Validation;Argument Validation;Error Handling;Null Check;String Validation;C# Library;Exception Handling;Parameter Validation</PackageTags>
     
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageIcon>guadIcon.png</PackageIcon>
-    <PackageLicenseFile>LICENCE.txt</PackageLicenseFile>
     <Version>1.0.1</Version>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="..\..\..\..\Downloads\guadIcon.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\licence\LICENCE.txt">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
 </Project>
